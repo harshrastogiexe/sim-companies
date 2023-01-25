@@ -4,9 +4,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/harshrastogiexe/app/controller"
 	"github.com/harshrastogiexe/app/database"
 	"github.com/harshrastogiexe/app/logger"
-	"github.com/harshrastogiexe/simcompanies/types"
+	"github.com/harshrastogiexe/cmd/repository"
 )
 
 func SetupHandler() http.Handler {
@@ -21,12 +22,11 @@ func setupResourceRoutes(router *gin.RouterGroup) {
 		logger.Error.Panic(err)
 		return
 	}
-	// repo := repository.DBResourceRepository{DB: db}
+	rController := controller.ResourceController{
+		ResourceRepo: repository.DBResourceRepository{DB: db},
+	}
 
-	router.GET("/", func(ctx *gin.Context) {
-		var resources []types.Resource
-		db.Table("Resource").Find(&resources)
-		ctx.JSON(http.StatusOK, resources)
-	})
-
+	// routes
+	router.GET("/", rController.GetAllResource)
+	router.GET("/:id", rController.GetResourceByID)
 }

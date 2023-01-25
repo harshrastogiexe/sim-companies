@@ -1,0 +1,4 @@
+use SIMCOMPANIES
+GO
+
+SELECT * FROM [Resource]

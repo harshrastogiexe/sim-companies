@@ -14,7 +14,7 @@ type Resource struct {
 }
 
 type Building struct {
-	BuildingID     string   `json:"db_letter"`
+	BuildingID     string   `json:"db_letter" gorm:"primaryKey; column:id"`
 	Image          string   `json:"image"`
 	Images         []string `json:"images"`
 	Name           string   `json:"name"`

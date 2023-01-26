@@ -44,15 +44,17 @@ func PingDB(gormDB *gorm.DB) error {
 }
 
 func GetConnection() (*gorm.DB, error) {
+	var err error = nil
 	m.Lock()
-	if globalDB != nil {
-		return globalDB, nil
-	}
+	if globalDB == nil {
+		dialect := getSqlServerDialect(dSN)
 
-	dialect := getSqlServerDialect(dSN)
-	if err := setupConnection(dialect); err != nil {
-		return nil, err
+		// this will setup global db instance
+		err = setupConnection(dialect)
+		if err != nil {
+			err = fmt.Errorf("failed to setup connection reason %w", err)
+		}
 	}
 	m.Unlock()
-	return globalDB, nil
+	return globalDB, err
 }

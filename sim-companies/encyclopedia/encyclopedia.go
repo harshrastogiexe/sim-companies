@@ -38,7 +38,7 @@ func GetResourceInfoFromMarket(id string) ([]types.MarketItem, error) {
 }
 
 func GetBuildingInfo(id string) (*types.Building, error) {
-	log.Println("fetching info for building id", id)
+	log.Println("fetching building with building id:", id)
 	req, err := http.NewRequest(http.MethodGet, bASE_URI_BUILDING+id, nil)
 	if err != nil {
 		return nil, err

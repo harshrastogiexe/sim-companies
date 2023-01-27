@@ -46,7 +46,9 @@ func setupBuildingRoutes(router *gin.RouterGroup) {
 		return
 	}
 
-	bController := controller.BuildingController{GormDB: db}
+	bController := controller.BuildingController{
+		BuildingsRepository: &repository.SqlServerBuildingRepository{GormDB: db},
+	}
 	router.GET("/:id", bController.GetBuildingById)
 
 	logger.Info.Println("building routes setup successfully")

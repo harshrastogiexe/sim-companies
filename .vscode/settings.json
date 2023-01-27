@@ -4,8 +4,10 @@
     "gonic",
     "gorm",
     "harshrastogi",
+    "Infof",
     "Retailable",
     "simcompanies",
+    "simcompaniesproxy",
     "sqlserver"
   ]
 }

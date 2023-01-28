@@ -9,5 +9,16 @@
     "simcompanies",
     "simcompaniesproxy",
     "sqlserver"
-  ]
+  ],
+
+  "go.addTags": {
+    "tags": "json",
+    "options": "json=omitempty",
+    "promptForTags": false,
+    "transform": "snakecase",
+    "template": ""
+  },
+  "gopls": {
+    "ui.semanticTokens": true
+  }
 }

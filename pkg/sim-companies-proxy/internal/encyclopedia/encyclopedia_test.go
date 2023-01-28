@@ -2,7 +2,6 @@ package encyclopedia_test
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 	"testing"
 
@@ -55,7 +54,6 @@ func Test_GetBuilding(t *testing.T) {
 	t.Run("returns valid building item with same id", func(t *testing.T) {
 		buildingId := "1"
 		building, err := e.GetBuilding(buildingId)
-		fmt.Printf("%+v", building)
 		if err != nil {
 			if !errors.Is(err, encyclopedia.ErrUnknown) {
 				t.Fatal(err)
@@ -80,6 +78,22 @@ func Test_GetLevels(t *testing.T) {
 		const expectedLevelCount = 7
 		if actualCount := len(levels); actualCount != expectedLevelCount {
 			t.Errorf("expected length of levels to be %d, got %d", expectedLevelCount, actualCount)
+		}
+	})
+}
+
+func Test_GetRatings(t *testing.T) {
+	e := encyclopedia.New()
+	t.Run("when rating are fetched successfully", func(t *testing.T) {
+		ratings, err := e.GetRatings()
+		if err != nil {
+			if !errors.Is(err, encyclopedia.ErrUnknown) {
+				t.Fatal(err)
+			}
+		}
+		const expectedLevelCount = 18
+		if actualCount := len(ratings); actualCount != expectedLevelCount {
+			t.Errorf("expected length of ratings to be %d, got %d", expectedLevelCount, actualCount)
 		}
 	})
 }

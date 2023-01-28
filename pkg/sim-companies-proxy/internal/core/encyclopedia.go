@@ -9,4 +9,7 @@ type Encyclopedia interface {
 
 	// fetches levels from https://www.simcompanies.com api service
 	GetLevels() ([]Level, error)
+
+	// fetches rating from https://www.simcompanies.com api service
+	GetRatings() ([]Rating, error)
 }

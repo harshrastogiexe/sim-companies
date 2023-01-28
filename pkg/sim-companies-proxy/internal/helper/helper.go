@@ -12,3 +12,9 @@ func ParseResponseJsonBody[T any](res *http.Response) (*T, error) {
 	}
 	return &value, nil
 }
+
+// checks whether response code starts with '2'
+func IsResponseStatusOk(response *http.Response) bool {
+	startLiteral := response.StatusCode / 100
+	return startLiteral == 2
+}

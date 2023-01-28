@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/harshrastogiexe/app/database"
-	legacyLogger "github.com/harshrastogiexe/app/logger"
-	"github.com/harshrastogiexe/app/routes"
+	"github.com/harshrastogiexe/sim-companies/cmd/app/database"
+	"github.com/harshrastogiexe/sim-companies/cmd/app/logger"
+	"github.com/harshrastogiexe/sim-companies/cmd/app/routes"
 )
 
 func main() {
@@ -19,11 +19,11 @@ func main() {
 	go func() {
 		defer wg.Done()
 		if err := http.ListenAndServe(":8080", handler); err != nil {
-			legacyLogger.Error.Panic(err)
+			logger.Error.Panic(err)
 		}
 	}()
 
-	legacyLogger.Info.Println("listening on port :8080")
+	logger.Info.Println("listening on port :8080")
 	wg.Wait()
 }
 
@@ -34,16 +34,16 @@ func SetupDatabaseConnection() {
 
 	DB, err := database.GetConnection()
 	if err != nil {
-		legacyLogger.Error.Panic(err)
+		logger.Error.Panic(err)
 	}
 
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
 		if err := database.PingDB(DB); err != nil {
-			legacyLogger.Error.Panic(err)
+			logger.Error.Panic(err)
 		}
-		legacyLogger.Info.Printf("successfully connected to database name=%s", DB.Name())
+		logger.Info.Printf("successfully connected to database name=%s", DB.Name())
 	}()
 	wg.Wait()
 }

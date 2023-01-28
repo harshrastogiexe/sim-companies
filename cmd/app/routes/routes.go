@@ -4,10 +4,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/harshrastogiexe/app/controller"
-	"github.com/harshrastogiexe/app/database"
-	"github.com/harshrastogiexe/app/logger"
 	"github.com/harshrastogiexe/cmd/repository"
+	"github.com/harshrastogiexe/sim-companies/cmd/app/controller"
+	"github.com/harshrastogiexe/sim-companies/cmd/app/database"
+	"github.com/harshrastogiexe/sim-companies/cmd/app/logger"
 )
 
 func SetupHandler() http.Handler {

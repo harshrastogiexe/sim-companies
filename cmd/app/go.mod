@@ -1,8 +1,11 @@
-module github.com/harshrastogiexe/app
+module github.com/harshrastogiexe/sim-companies/cmd/app
 
 go 1.19
 
 require gorm.io/driver/sqlserver v1.4.2
+
+require github.com/harshrastogiexe/pkg/sim-companies-proxy v0.0.0
+replace github.com/harshrastogiexe/pkg/sim-companies-proxy => "../../pkg/sim-companies-proxy"
 
 require (
 	github.com/gin-contrib/sse v0.1.0 // indirect

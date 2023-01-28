@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/harshrastogiexe/app/logger"
 	"github.com/harshrastogiexe/cmd/repository"
+	"github.com/harshrastogiexe/sim-companies/cmd/app/logger"
 	"github.com/harshrastogiexe/simcompanies/encyclopedia"
 	"github.com/harshrastogiexe/simcompanies/types"
 )

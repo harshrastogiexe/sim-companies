@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/harshrastogiexe/cmd/repository"
 	"github.com/harshrastogiexe/sim-companies/cmd/app/controller"
@@ -12,6 +13,7 @@ import (
 
 func SetupHandler() http.Handler {
 	router := gin.Default()
+	router.Use(cors.Default())
 
 	setupResourceRoutes(router.Group("/resource"))
 	setupBuildingRoutes(router.Group("/building"))

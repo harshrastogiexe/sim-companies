@@ -5,7 +5,8 @@ go 1.19
 require gorm.io/driver/sqlserver v1.4.2
 
 require github.com/harshrastogiexe/pkg/sim-companies-proxy v0.0.0
-replace github.com/harshrastogiexe/pkg/sim-companies-proxy => "../../pkg/sim-companies-proxy"
+
+replace github.com/harshrastogiexe/pkg/sim-companies-proxy => ../../pkg/sim-companies-proxy
 
 require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
@@ -30,6 +31,7 @@ require (
 
 require (
 	github.com/fatih/color v1.14.1
+	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.2
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect

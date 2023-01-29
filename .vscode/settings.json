@@ -8,7 +8,8 @@
     "Retailable",
     "simcompanies",
     "simcompaniesproxy",
-    "sqlserver"
+    "sqlserver",
+    "tailwindcss"
   ],
 
   "go.addTags": {
@@ -20,5 +21,12 @@
   },
   "gopls": {
     "ui.semanticTokens": true
+  },
+
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.suggest.insertMode": "replace",
+    "gitlens.codeLens.scopes": ["document"],
+    "cSpell.fixSpellingWithRenameProvider": false
   }
 }

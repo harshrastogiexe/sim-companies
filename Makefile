@@ -3,3 +3,7 @@ start-db:
 
 run:
 	go run ./app/.
+
+run-client:
+	cd "./client/ng-sim-app";\
+	npm start

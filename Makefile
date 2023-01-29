@@ -2,7 +2,7 @@ start-db:
 	docker compose start
 
 run:
-	go run ./app/.
+	go run ./cmd/app/.
 
 run-client:
 	cd "./client/ng-sim-app";\

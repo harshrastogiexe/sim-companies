@@ -29,5 +29,5 @@ var (
 func Log(level LogLevel, format string, others ...any) {
 	prefixColor := logColor[level]
 	logInstance.SetPrefix(prefixColor.Sprintf(prefix[level]) + color.BlackString(" > "))
-	logInstance.Output(3, fmt.Sprintf(format, others...))
+	logInstance.Output(2, fmt.Sprintf(format, others...))
 }

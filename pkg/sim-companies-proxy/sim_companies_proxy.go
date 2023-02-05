@@ -1,7 +1,7 @@
-package main
+package simcompanies
 
 import (
-	"github.com/harshrastogiexe/pkg/sim-companies-proxy/internal/core"
+	"github.com/harshrastogiexe/pkg/sim-companies-proxy/core"
 	"github.com/harshrastogiexe/pkg/sim-companies-proxy/internal/encyclopedia"
 )
 

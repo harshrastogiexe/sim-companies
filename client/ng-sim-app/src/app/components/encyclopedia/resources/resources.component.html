@@ -24,7 +24,7 @@
 		<app-resource-item
 			*ngFor="let resource of resources$ | async"
 			[resource]="resource"
-			(select)="resource$.next($event)"
+			(select)="resourceId$.emit($event.db_letter.toString())"
 		></app-resource-item>
 	</section>
 </section>

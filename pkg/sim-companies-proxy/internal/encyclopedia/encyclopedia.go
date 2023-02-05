@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/harshrastogiexe/pkg/sim-companies-proxy/internal/core"
+	"github.com/harshrastogiexe/pkg/sim-companies-proxy/core"
 	"github.com/harshrastogiexe/pkg/sim-companies-proxy/internal/helper"
 	"github.com/harshrastogiexe/sim-companies/pkg/logger"
 )

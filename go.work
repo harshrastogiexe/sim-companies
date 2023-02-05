@@ -1,10 +1,8 @@
 go 1.19
 
 use (
-    "./cmd/app"
-    "./infrastucture"
-    "./sim-companies"
-
+    "./pkg/simcompdb"
+    "./cmd/server"
     "./pkg/logger"
     "./pkg/sim-companies-proxy"
 )

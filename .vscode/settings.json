@@ -1,13 +1,16 @@
 {
   "cSpell.words": [
+    "cqrs",
     "dialector",
     "gonic",
     "gorm",
     "harshrastogi",
     "Infof",
+    "NVARCHAR",
     "Retailable",
     "simcompanies",
     "simcompaniesproxy",
+    "simcompdb",
     "sqlserver",
     "tailwindcss"
   ],

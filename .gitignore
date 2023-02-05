@@ -144,6 +144,8 @@ web_modules/
 .next
 out
 
+.log
+
 # Nuxt.js build / generate output
 .nuxt
 dist

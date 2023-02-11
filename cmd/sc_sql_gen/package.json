@@ -1,0 +1,21 @@
+{
+  "name": "simcompanies-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "@types/yargs": "^17.0.22",
+    "typescript": "^4.9.5"
+  },
+  "scripts": {
+    "watch": "tsc -w",
+    "build": "rm -rf build & tsc",
+    "exec": "node build/"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "yargs": "^17.6.2"
+  }
+}

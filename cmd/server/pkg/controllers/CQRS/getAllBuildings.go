@@ -17,13 +17,14 @@ func GetAllBuildings(ctx *gin.Context) {
 		panic(fmt.Errorf("instance not found: TOKEN = %s", core.APPLICATION_TOKEN))
 	}
 
-	simDB := simcompdb.SimcompaniesDB{Database: app.DB}
+	repo := simcompdb.NewRepository(app.DB)
+	buildings, err := repo.ListBuildings()
 
-	buildings, err := simDB.GetBuildings()
 	if err != nil {
 		code := http.StatusInternalServerError
 		ctx.JSON(code, models.NewApiError(code, err.Error()))
 		return
 	}
+
 	ctx.JSON(http.StatusOK, buildings)
 }

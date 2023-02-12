@@ -33,62 +33,72 @@ func convertBuildingApiToBuildingModel(building *core.Building) *models.Building
 	}
 }
 
-func convertApiResourceToBuildResource(resource *core.Resource) *models.Resource {
-	resourceModel := &models.Resource{
-		ID:                   resource.ID,
-		Name:                 resource.Name,
-		Image:                resource.Image,
-		Transportation:       resource.Transportation,
-		Retailable:           resource.Retailable,
-		Research:             resource.Research,
-		ExchangeTradable:     resource.ExchangeTradable,
-		RealmAvailable:       resource.RealmAvailable,
-		ProducedAtBuildingId: resource.ProducedAt.ID,
-		TransportNeeded:      resource.TransportNeeded,
-		ProducedAnHour:       resource.ProducedAnHour,
-		BaseSalary:           resource.BaseSalary,
+func convertApiResourceToBuildResource(resource *core.Resource) *models.ResourceMain {
+	m := &models.ResourceMain{
+		ResourceBaseID:       resource.ID,
+		SoldAtBuildingID:     sql.NullString{String: resource.SoldAt.ID},
+		SoldAtRestaurantID:   sql.NullString{String: resource.SoldAtRestaurant.ID},
+		ProducedAtBuildingID: sql.NullString{String: resource.ProducedAt.ID},
 	}
 
-	if resource.ProducedFrom != nil {
-		resourceModel.ProducedFrom = func() (producedFrom []models.ProducedFrom) {
-			for _, item := range resource.ProducedFrom {
-				producedFrom = append(producedFrom, models.ProducedFrom{
-					ResourceID:           resource.ID,
-					ProducedFromResource: models.Resource{ID: item.Resource.ID},
-					Amount:               item.Amount,
-				})
-			}
-			return producedFrom
-		}()
-	}
+	return m
+	// resourceModel := &models.Resource{
+	// 	ID:                   resource.ID,
+	// 	Name:                 resource.Name,
+	// 	Image:                resource.Image,
+	// 	Transportation:       resource.Transportation,
+	// 	Retailable:           resource.Retailable,
+	// 	Research:             resource.Research,
+	// 	ExchangeTradable:     resource.ExchangeTradable,
+	// 	RealmAvailable:       resource.RealmAvailable,
+	// 	ProducedAtBuildingId: resource.ProducedAt.ID,
+	// 	TransportNeeded:      resource.TransportNeeded,
+	// 	ProducedAnHour:       resource.ProducedAnHour,
+	// 	BaseSalary:           resource.BaseSalary,
 
-	if resource.SoldAt != nil {
-		resourceModel.SoldAtBuildingId = sql.NullString{String: resource.SoldAt.ID}
-	}
+	// 	ProducedAt: &models.Building{ID: resource.ProducedAt.ID},
+	// }
 
-	if resource.MarketSaturationLabel != nil {
-		resourceModel.MarketSaturationLabel = sql.NullString{String: string(*resource.MarketSaturationLabel)}
-	}
+	// if resource.ProducedFrom != nil {
+	// 	resourceModel.ProducedFrom = func() (producedFrom []models.ProducedFrom) {
+	// 		for _, item := range resource.ProducedFrom {
+	// 			producedFrom = append(producedFrom, models.ProducedFrom{
+	// 				ResourceID:           resource.ID,
+	// 				ProducedFromResource: models.Resource{ID: item.Resource.ID},
+	// 				Amount:               item.Amount,
+	// 			})
+	// 		}
+	// 		return producedFrom
+	// 	}()
+	// }
 
-	if resource.RetailModeling != nil {
-		resourceModel.RetailModeling = sql.NullString{String: *resource.RetailModeling}
-	}
+	// if resource.SoldAt != nil {
+	// 	resourceModel.SoldAtBuildingId = sql.NullString{String: resource.SoldAt.ID}
+	// }
 
-	if resource.SoldAtRestaurant != nil {
-		resourceModel.SoldAtRestaurantId = sql.NullString{String: resource.SoldAtRestaurant.ID}
-	}
+	// if resource.MarketSaturationLabel != nil {
+	// 	resourceModel.MarketSaturationLabel = sql.NullString{String: string(*resource.MarketSaturationLabel)}
+	// }
 
-	if resource.AverageRetailPrice != nil {
-		resourceModel.AverageRetailPrice = sql.NullFloat64{Float64: *resource.AverageRetailPrice}
-	}
+	// if resource.RetailModeling != nil {
+	// 	resourceModel.RetailModeling = sql.NullString{String: *resource.RetailModeling}
+	// }
 
-	if resource.MarketSaturation != nil {
-		resourceModel.MarketSaturation = sql.NullFloat64{Float64: *resource.MarketSaturation}
-	}
+	// if resource.SoldAtRestaurant != nil {
+	// 	resourceModel.SoldAtRestaurantId = sql.NullString{String: resource.SoldAtRestaurant.ID}
+	// }
 
-	if resource.StoreBaseSalary != nil {
-		resourceModel.StoreBaseSalary = sql.NullFloat64{Float64: *resource.StoreBaseSalary}
-	}
+	// if resource.AverageRetailPrice != nil {
+	// 	resourceModel.AverageRetailPrice = sql.NullFloat64{Float64: *resource.AverageRetailPrice}
+	// }
 
-	return resourceModel
+	// if resource.MarketSaturation != nil {
+	// 	resourceModel.MarketSaturation = sql.NullFloat64{Float64: *resource.MarketSaturation}
+	// }
+
+	// if resource.StoreBaseSalary != nil {
+	// 	resourceModel.StoreBaseSalary = sql.NullFloat64{Float64: *resource.StoreBaseSalary}
+	// }
+
+	// return resourceModel
 }

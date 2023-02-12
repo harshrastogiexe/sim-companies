@@ -14,21 +14,7 @@ func Test_convertApiResourceToBuildResource(t *testing.T) {
 	}
 	rm := convertApiResourceToBuildResource(r)
 
-	if rm.ID != r.ID {
+	if rm.ResourceBaseID != r.ID {
 		t.Error("mismatch id")
-	}
-
-	if rm.Name != r.Name {
-		t.Error("mismatch id")
-	}
-
-	if len(rm.ProducedFrom) != len(r.ProducedFrom) {
-		t.Fail()
-	}
-
-	for i, producedFrom := range r.ProducedFrom {
-		if rm.ProducedFrom[i].ProducedFromResource.ID != producedFrom.Resource.ID || rm.ProducedFrom[i].Amount != producedFrom.Amount {
-			t.Error("mismatch resource id or amount during conversion")
-		}
 	}
 }

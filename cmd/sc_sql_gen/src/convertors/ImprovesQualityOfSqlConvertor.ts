@@ -1,5 +1,5 @@
 import { ISqlConvertor } from "../core/convertors";
-import { Resource } from "../Resource";
+import { Resource } from "../core/resource.types";
 import { SqlConvertor } from "./SqlConvertor";
 
 export class ImprovesQualityOfSqlConvertor

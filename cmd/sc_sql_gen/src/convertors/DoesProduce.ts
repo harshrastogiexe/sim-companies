@@ -1,5 +1,5 @@
 import { ISqlConvertor } from "../core/convertors";
-import { Building } from "../Resource";
+import { Building } from "../core/resource.types";
 import { SqlConvertor } from "./SqlConvertor";
 
 export class DoesAction

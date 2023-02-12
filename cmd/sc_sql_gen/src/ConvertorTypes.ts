@@ -1,4 +1,5 @@
 import { ResourceBaseSqlConvertor } from "./convertors";
+import { BuildingImagesSqlConvertor } from "./convertors/BuildingImagesSqlConvetor";
 import { BuildingMainSqlConvertor } from "./convertors/BuildingMain";
 import { DoesAction } from "./convertors/DoesProduce";
 import { ImprovesQualityOfSqlConvertor } from "./convertors/ImprovesQualityOfSqlConvertor";
@@ -11,4 +12,5 @@ export const ConvertorTypes: { [key: string]: ISqlConvertor<any> | undefined } =
     ["does_sell"]: new DoesAction("sell"),
     ["does_produce"]: new DoesAction("produce"),
     ["building_main"]: new BuildingMainSqlConvertor(),
+    ["images"]: new BuildingImagesSqlConvertor(),
   };

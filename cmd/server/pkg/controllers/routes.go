@@ -15,7 +15,6 @@ func Router() http.Handler {
 	encyclopediaRouter := router.Group("/encyclopedia")
 	{
 		encyclopediaRouter.GET("/resource/:id", cqrs.GetResourceById)
-		encyclopediaRouter.GET("/building/populate", cqrs.PopulateDatabase)
 		encyclopediaRouter.GET("/building/:id", cqrs.GetBuildingById)
 		encyclopediaRouter.GET("/building", cqrs.GetAllBuildings)
 	}

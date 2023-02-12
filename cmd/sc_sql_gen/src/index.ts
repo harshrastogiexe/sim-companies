@@ -1,9 +1,9 @@
 import { createWriteStream } from "fs";
 import { readFile, writeFile } from "fs/promises";
 import { Writable } from "stream";
-import { appArgs } from "./args";
+import { cmdArgs } from "./args";
 import { ConvertorTypes } from "./ConvertorTypes";
-import { Resource } from "./Resource";
+import { Resource } from "./core/resource.types";
 import { fetchAllBuildings, fetchAllResources } from "./simcompanies";
 import { createFile, isFileExist } from "./utils";
 
@@ -13,7 +13,7 @@ const fetchItem: { [item: string]: () => Promise<any> } = {
 };
 
 async function main() {
-  const args = await appArgs;
+  const args = await cmdArgs;
   const { table } = args;
   if (!table) throw new Error("table name required, use --help");
 

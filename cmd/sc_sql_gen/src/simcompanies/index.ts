@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises";
 import { dirname, join } from "path/posix";
-import { Resource } from "../Resource";
+import { Resource } from "../core/resource.types";
 
 export function* getResourcesId(): Generator<string, void, unknown> {
   for (let i = 1; i <= 145; i++) {

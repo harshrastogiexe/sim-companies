@@ -9,9 +9,6 @@ import (
 	"github.com/harshrastogiexe/cmd/server/pkg/global"
 	"github.com/harshrastogiexe/cmd/server/pkg/models"
 
-	simcompanies "github.com/harshrastogiexe/pkg/sim-companies-proxy"
-
-	"github.com/harshrastogiexe/sim-companies/pkg/logger"
 	"github.com/harshrastogiexe/sim-companies/pkg/simcompdb"
 )
 
@@ -20,13 +17,8 @@ func GetBuildingById(ctx *gin.Context) {
 	if !found {
 		panic(fmt.Errorf("instance not found: TOKEN = %s", core.APPLICATION_TOKEN))
 	}
-
-	var (
-		simDB      = simcompdb.SimcompaniesDB{Database: app.DB}
-		buildingID = ctx.Param("id")
-	)
-
-	building, err := simDB.GetBuildingById(buildingID)
+	repo := simcompdb.NewRepository(app.DB)
+	building, err := repo.GetBuilding(ctx.Param("id"), ctx.QueryArray("include")...)
 
 	if err != nil {
 		code := http.StatusInternalServerError
@@ -34,30 +26,11 @@ func GetBuildingById(ctx *gin.Context) {
 		return
 	}
 
-	if building != nil {
-		ctx.JSON(http.StatusOK, building)
+	if building == nil {
+		code := http.StatusNotFound
+		ctx.JSON(code, models.NewApiError(code, "building not found"))
 		return
 	}
 
-	logger.Log(logger.Info, "fetching building from simcompanies.com")
-	buildingApiData, err := simcompanies.Encyclopedia.GetBuilding(buildingID)
-
-	if err != nil {
-		var code int
-		switch {
-		case err.Error() == "item not found":
-			code = http.StatusNotFound
-		default:
-			code = http.StatusInternalServerError
-		}
-		ctx.JSON(code, models.NewApiError(code, err.Error()))
-		return
-	}
-
-	buildingModelData := convertBuildingApiToBuildingModel(buildingApiData)
-	err = simDB.SaveBuilding(buildingModelData)
-	if err != nil {
-		logger.Log(logger.Fail, "failed to save building data")
-	}
-	ctx.JSON(200, buildingModelData)
+	ctx.JSON(200, building)
 }

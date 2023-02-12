@@ -1,6 +1,6 @@
 import yargs from "yargs";
 
-export const appArgs = yargs
+export const cmdArgs = yargs
   .options("filepath", {
     alias: "f",
     string: true,

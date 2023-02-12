@@ -2,6 +2,7 @@
   "cSpell.words": [
     "cqrs",
     "dialector",
+    "godotenv",
     "gonic",
     "gorm",
     "harshrastogi",
@@ -11,6 +12,7 @@
     "simcompanies",
     "simcompaniesproxy",
     "simcompdb",
+    "simdbproxy",
     "sqlserver",
     "tailwindcss"
   ],

@@ -7,9 +7,11 @@ import (
 
 func Migrate(db *gorm.DB) error {
 	return db.AutoMigrate(
-		&models.Building{},
-		&models.BuildingLevelImages{},
-		&models.Resource{},
-		&models.ProducedFrom{},
+		models.BuildingBase{},
+		models.ResourceBase{},
+		models.BuildingMain{},
+		models.ResourceMain{},
+		models.ProducedFrom{},
+		models.BuildingLevelImage{},
 	)
 }

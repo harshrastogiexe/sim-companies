@@ -11,7 +11,7 @@ type Resource struct {
 	Research              bool    `gorm:"not null;"`
 	ExchangeTradable      bool    `gorm:"not null;"`
 	RealmAvailable        bool    `gorm:"not null;"`
-	ProducedFrom          []ProducedFrom
+	ProducedFrom          []ProducedFromLegacy
 	SoldAtBuildingId      sql.NullString
 	SoldAt                *Building `gorm:"foreignKey:SoldAtBuildingId"`
 	SoldAtRestaurantId    sql.NullString
@@ -30,10 +30,14 @@ type Resource struct {
 	ImprovesQualityOf     []Resource `gorm:"many2many:improves_quality"`
 }
 
-type ProducedFrom struct {
+type ProducedFromLegacy struct {
 	ResourceID             int64
 	Resource               Resource `gorm:"not null;foreignKey:ResourceID"`
 	ProducedFromResourceID int64
 	ProducedFromResource   Resource `gorm:"not null;foreignKey:ProducedFromResourceID"`
 	Amount                 float64  `gorm:"not null;"`
+}
+
+func (ProducedFromLegacy) TableName() string {
+	return "produced_from"
 }

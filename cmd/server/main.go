@@ -5,6 +5,8 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/joho/godotenv"
+
 	"github.com/harshrastogiexe/cmd/server/pkg/controllers"
 	"github.com/harshrastogiexe/cmd/server/pkg/core"
 	"github.com/harshrastogiexe/cmd/server/pkg/global"
@@ -13,12 +15,15 @@ import (
 )
 
 func main() {
-	const DSN = "server=localhost; Database=SIMCOMPANIES; User Id=SA; Password=ComplexP@ssword1234"
+	if err := godotenv.Load(); err != nil {
+		panic(err)
+	}
+
 	start := time.Now()
 
 	app := core.NewApplication()
 
-	app.UseGormDatabase(SetupSqlServer(DSN))
+	app.UseGormDatabase(SetupSqlServer(os.Getenv("DSN")))
 	app.UseHandler(controllers.Router())
 
 	global.Add(core.APPLICATION_TOKEN, app)

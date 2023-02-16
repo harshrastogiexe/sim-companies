@@ -6,12 +6,12 @@ import (
 )
 
 func Migrate(db *gorm.DB) error {
-	return db.AutoMigrate(
-		models.BuildingBase{},
+	tables := []any{models.BuildingBase{},
 		models.ResourceBase{},
 		models.BuildingMain{},
 		models.ResourceMain{},
 		models.ProducedFrom{},
-		models.BuildingLevelImage{},
-	)
+		models.BuildingLevelImage{}}
+
+	return db.AutoMigrate(tables...)
 }

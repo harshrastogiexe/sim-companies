@@ -3,31 +3,35 @@ package core
 import (
 	"context"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/harshrastogiexe/sim-companies/pkg/logger"
 	"gorm.io/gorm"
 )
 
+// Application Instance
 type Application struct {
+	// Application configuration
 	Config *configuration
+
+	// Application server instance
 	server http.Server
-	DB     *gorm.DB
+
+	// Application gorm db instance
+	DB *gorm.DB
 }
 
 // it build up the application and start listening to port
 func (app *Application) Listen() <-chan error {
-	var (
-		port      = app.Config.PORT.String()
-		errorChan = make(chan error)
-	)
+	var errorChan = make(chan error)
 
 	go func(server http.Server) {
 		err := server.ListenAndServe()
 		errorChan <- err
 	}(app.server)
 
-	logger.Log(logger.Info, "listening on http://localhost%s/", port)
+	logger.Log(logger.Info, "listening on http://localhost%s/", app.server.Addr)
 	return errorChan
 }
 
@@ -49,6 +53,7 @@ func (app *Application) UseHandler(handler http.Handler) {
 	app.server.Handler = handler
 }
 
+// Pings the database if, return error nil if something does wrong
 func (app *Application) PingDatabase() error {
 	sqlDB, err := app.DB.DB()
 	if err != nil {
@@ -58,6 +63,7 @@ func (app *Application) PingDatabase() error {
 	return sqlDB.Ping()
 }
 
+// Close closed the application instance
 func (app *Application) Close() error {
 	sqlDB, _ := app.DB.DB()
 	var closeErr error = nil
@@ -73,7 +79,7 @@ func NewApplication() *Application {
 	var app Application
 	app.Config = DefaultConfig
 	app.server = http.Server{
-		Addr: app.Config.PORT.String(),
+		Addr: os.Getenv("PORT"),
 	}
 
 	return &app

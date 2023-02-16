@@ -1,6 +1,8 @@
 package models
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type ApiError struct {
 	// HTTP status codes as registered with IANA.

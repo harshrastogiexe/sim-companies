@@ -3,12 +3,12 @@ package global
 
 import "github.com/harshrastogiexe/cmd/server/pkg/core"
 
-type Container[K any] map[core.ServiceToken]K
+type ServiceContainer[K any] map[core.ServiceToken]K
 
-var container Container[any]
+var container ServiceContainer[any]
 
 func init() {
-	container = Container[any]{}
+	container = ServiceContainer[any]{}
 }
 
 // add value to global registry

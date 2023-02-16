@@ -1,11 +1,6 @@
 package core
 
-import "os"
-
-type configuration struct {
-	DSN  string
-	PORT port
-}
+type configuration struct{}
 
 // default configuration for server
 //
@@ -16,10 +11,7 @@ type configuration struct {
 var DefaultConfig *configuration
 
 func init() {
-	DefaultConfig = &configuration{
-		PORT: 8080,
-		DSN:  os.Getenv("DSN"),
-	}
+	DefaultConfig = &configuration{}
 }
 
 // creates and returns a pointer to new zero value based configuration

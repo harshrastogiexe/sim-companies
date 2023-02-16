@@ -7,25 +7,25 @@ import (
 	"github.com/harshrastogiexe/sim-companies/pkg/simcompdb/models"
 )
 
-func convertBuildingApiToBuildingModel(building *core.Building) *models.Building {
+func convertBuildingApiToBuildingModel(b *core.Building) *models.Building {
 	return &models.Building{
-		ID:             building.ID,
-		Name:           building.Name,
-		Image:          building.Image,
-		Category:       building.Category,
-		Cost:           building.Cost,
-		RobotsNeeded:   building.RobotsNeeded,
-		RealmAvailable: building.RealmAvailable,
-		CostUnits:      building.CostUnits,
-		Hours:          building.Hours,
-		Wages:          building.Wages,
+		ID:             b.ID,
+		Name:           b.Name,
+		Image:          b.Image,
+		Category:       b.Category,
+		Cost:           b.Cost,
+		RobotsNeeded:   b.RobotsNeeded,
+		RealmAvailable: b.RealmAvailable,
+		CostUnits:      b.CostUnits,
+		Hours:          b.Hours,
+		Wages:          b.Wages,
 		Images: func() []models.BuildingLevelImages {
 			var images []models.BuildingLevelImages
-			for i, image := range building.Images {
+			for i, img := range b.Images {
 				images = append(images, models.BuildingLevelImages{
-					BuildingID: building.ID,
-					Level:      uint(i + 1),
-					Image:      image,
+					BuildingID: b.ID,
+					Level:      uint(i + 1), // using image
+					Image:      img,
 				})
 			}
 			return images
@@ -33,13 +33,13 @@ func convertBuildingApiToBuildingModel(building *core.Building) *models.Building
 	}
 }
 
-func convertApiResourceToBuildResource(resource *core.Resource) *models.ResourceMain {
-	m := &models.ResourceMain{
-		ResourceBaseID:       resource.ID,
-		SoldAtBuildingID:     sql.NullString{String: resource.SoldAt.ID},
-		SoldAtRestaurantID:   sql.NullString{String: resource.SoldAtRestaurant.ID},
-		ProducedAtBuildingID: sql.NullString{String: resource.ProducedAt.ID},
+func convertApiResourceToBuildResource(r *core.Resource) *models.ResourceMain {
+	rm := &models.ResourceMain{
+		ResourceBaseID:       r.ID,
+		SoldAtBuildingID:     sql.NullString{String: r.SoldAt.ID},
+		SoldAtRestaurantID:   sql.NullString{String: r.SoldAtRestaurant.ID},
+		ProducedAtBuildingID: sql.NullString{String: r.ProducedAt.ID},
 	}
 
-	return m
+	return rm
 }

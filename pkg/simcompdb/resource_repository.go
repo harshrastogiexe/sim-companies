@@ -5,6 +5,11 @@ import (
 	"gorm.io/gorm"
 )
 
+type ResourceRepository interface {
+	GetResourceBase(id string) (*models.ResourceBase, error)
+	GetResource(id string, preload ...string) (*models.ResourceMain, error)
+}
+
 type resourceRepo struct {
 	*gorm.DB
 }
@@ -15,20 +20,20 @@ func (repo *resourceRepo) GetResourceBase(id string) (*models.ResourceBase, erro
 }
 
 func (repo *resourceRepo) GetResource(id string, preload ...string) (*models.ResourceMain, error) {
-	var item models.ResourceMain
+	var resource models.ResourceMain
 
 	var tx = repo.Debug()
 	for _, preloadTable := range preload {
 		tx = tx.Preload(preloadTable)
 	}
 
-	result := tx.Find(&item, id)
-	if result.Error != nil {
-		return nil, result.Error
+	r := tx.Find(&resource, id)
+	if r.Error != nil {
+		return nil, r.Error
 	}
 
-	if result.RowsAffected == 0 {
+	if r.RowsAffected == 0 {
 		return nil, nil
 	}
-	return &item, nil
+	return &resource, nil
 }

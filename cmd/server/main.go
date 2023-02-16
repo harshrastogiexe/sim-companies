@@ -20,10 +20,8 @@ import (
 )
 
 func main() {
-	if err := godotenv.Load(); err != nil {
-		panic(err)
-	}
-	start := time.Now()
+	LoadEnvFile()
+	st := time.Now()
 
 	var app = SetupApplication()
 
@@ -33,7 +31,7 @@ func main() {
 	MigrateDatabase(app.DB)
 
 	app.Listen()
-	logger.Log(logger.Info, "time lapsed to start server: %d milliseconds", time.Since(start).Milliseconds())
+	logger.Log(logger.Info, "time lapsed to start server: %d milliseconds", time.Since(st).Milliseconds())
 
 	// Application Shutdown Logic
 	stop := make(chan os.Signal, 1)
@@ -49,9 +47,15 @@ func main() {
 	os.Exit(0)
 }
 
+func LoadEnvFile() {
+	if err := godotenv.Load(); err != nil {
+		panic(err)
+	}
+}
+
 func SetupSqlServer(dsn string) (db *gorm.DB) {
-	dialect := sqlserver.Open(dsn)
-	db, err := gorm.Open(dialect, &gorm.Config{})
+	d := sqlserver.Open(dsn)
+	db, err := gorm.Open(d, &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}

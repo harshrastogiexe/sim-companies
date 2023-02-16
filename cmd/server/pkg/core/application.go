@@ -22,17 +22,17 @@ type Application struct {
 	DB *gorm.DB
 }
 
-// it build up the application and start listening to port
+// Listen start server to listen and serve, return a channel for error which will emit values when
+// server stops
 func (app *Application) Listen() <-chan error {
-	var errorChan = make(chan error)
+	var errCh = make(chan error)
 
 	go func(server http.Server) {
-		err := server.ListenAndServe()
-		errorChan <- err
+		errCh <- server.ListenAndServe()
 	}(app.server)
 
 	logger.Log(logger.Info, "listening on http://localhost%s/", app.server.Addr)
-	return errorChan
+	return errCh
 }
 
 // gracefully stop the server, once stopped can't be started again
@@ -55,23 +55,20 @@ func (app *Application) UseHandler(handler http.Handler) {
 
 // Pings the database if, return error nil if something does wrong
 func (app *Application) PingDatabase() error {
-	sqlDB, err := app.DB.DB()
+	db, err := app.DB.DB()
 	if err != nil {
 		return err
 	}
-
-	return sqlDB.Ping()
+	return db.Ping()
 }
 
 // Close closed the application instance
-func (app *Application) Close() error {
-	sqlDB, _ := app.DB.DB()
-	var closeErr error = nil
-
-	if err := sqlDB.Close(); err != nil {
-		closeErr = err
+func (app *Application) Close() (err error) {
+	db, _ := app.DB.DB()
+	if err := db.Close(); err != nil {
+		return err
 	}
-	return closeErr
+	return
 }
 
 // create a new application instance with default config
@@ -81,6 +78,5 @@ func NewApplication() *Application {
 	app.server = http.Server{
 		Addr: os.Getenv("PORT"),
 	}
-
 	return &app
 }

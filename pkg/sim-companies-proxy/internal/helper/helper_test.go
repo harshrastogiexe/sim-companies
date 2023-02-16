@@ -12,17 +12,18 @@ func Test_IsStatusCodeOk(t *testing.T) {
 		code     int
 		expected bool
 	}
-	tests := []TestCase{
+
+	tcs := []TestCase{
 		{code: http.StatusNotFound, expected: false},
 		{code: http.StatusInternalServerError, expected: false},
 		{code: http.StatusOK, expected: true},
 		{code: http.StatusCreated, expected: true},
 	}
 
-	for _, testCase := range tests {
-		response := http.Response{StatusCode: testCase.code}
-		if actual := helper.IsResponseStatusOk(&response); testCase.expected != actual {
-			t.Errorf("expected %v when status code is %d, got %v when", testCase.expected, testCase.code, actual)
+	for _, tc := range tcs {
+		res := http.Response{StatusCode: tc.code}
+		if isOk := helper.IsResponseStatusOk(&res); tc.expected != isOk {
+			t.Errorf("expected %v when status code is %d, got %v when", tc.expected, tc.code, isOk)
 		}
 	}
 }

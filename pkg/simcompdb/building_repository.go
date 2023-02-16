@@ -5,34 +5,39 @@ import (
 	"gorm.io/gorm"
 )
 
+type BuildingRepository interface {
+	GetBuilding(id string, preload ...string) (*models.BuildingMain, error)
+	ListBuildings() ([]models.BuildingBase, error)
+}
+
 type buildingRepo struct {
 	*gorm.DB
 }
 
 func (repo *buildingRepo) GetBuilding(id string, preload ...string) (*models.BuildingMain, error) {
-	var item models.BuildingMain
+	var buildings models.BuildingMain
 
 	var tx = repo.Debug()
 	for _, preloadTable := range preload {
 		tx = tx.Preload(preloadTable)
 	}
 
-	result := tx.Where(&models.BuildingMain{BuildingBaseID: id}).Find(&item)
-	if result.Error != nil {
-		return nil, result.Error
+	r := tx.Where(&models.BuildingMain{BuildingBaseID: id}).Find(&buildings)
+	if r.Error != nil {
+		return nil, r.Error
 	}
 
-	if result.RowsAffected == 0 {
+	if r.RowsAffected == 0 {
 		return nil, nil
 	}
-	return &item, nil
+	return &buildings, nil
 }
 
 func (repo *buildingRepo) ListBuildings() ([]models.BuildingBase, error) {
-	var building []models.BuildingBase
-	result := repo.Preload("Images").Find(&building)
+	var buildings []models.BuildingBase
+	result := repo.Preload("Images").Find(&buildings)
 	if result.Error != nil {
 		return []models.BuildingBase{}, repo.Error
 	}
-	return building, nil
+	return buildings, nil
 }

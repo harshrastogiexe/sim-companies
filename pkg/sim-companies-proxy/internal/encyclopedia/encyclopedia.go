@@ -9,6 +9,7 @@ import (
 	"github.com/harshrastogiexe/sim-companies/pkg/logger"
 )
 
+// sim companies relative url
 const (
 	baseUriResourceEncyclopedia string = "https://www.simcompanies.com/api/v4/en/0/encyclopedia/resources/1/"
 	baseUriBuildingEncyclopedia string = "https://www.simcompanies.com/api/v3/0/encyclopedia/buildings/"
@@ -16,6 +17,7 @@ const (
 	baseUriRatingEncyclopedia   string = "https://www.simcompanies.com/api/v2/encyclopedia/ratings/"
 )
 
+// errors
 var (
 	ErrNotFound = errors.New("item not found")
 	ErrUnknown  = errors.New("something went wrong")
@@ -31,128 +33,128 @@ func New() encyclopedia {
 // fetches resource from https://www.simcompanies.com api service
 func (encyclopedia) GetResource(id string) (*core.Resource, error) {
 	url := baseUriResourceEncyclopedia + id
-	request, err := http.NewRequest(http.MethodGet, url, nil)
+	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	response, err := http.DefaultClient.Do(request)
+	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
 	defer func() {
-		if err := response.Body.Close(); err != nil {
+		if err := res.Body.Close(); err != nil {
 			logger.Log(logger.Warn, "failed to close response body")
 		}
 	}()
 
-	if response.StatusCode == http.StatusNotFound {
+	if res.StatusCode == http.StatusNotFound {
 		return nil, ErrNotFound
-	} else if startWith := response.StatusCode / 100; startWith == 4 || startWith == 5 {
+	} else if startWith := res.StatusCode / 100; startWith == 4 || startWith == 5 {
 		return nil, ErrUnknown
 	}
 
-	data, err := helper.ParseResponseJsonBody[core.Resource](response)
+	r, err := helper.ParseResponseJsonBody[core.Resource](res)
 	if err != nil {
 		return nil, err
 	}
 
-	return data, err
+	return r, err
 }
 
 // fetches building from https://www.simcompanies.com api service
 func (encyclopedia) GetBuilding(id string) (*core.Building, error) {
 	url := baseUriBuildingEncyclopedia + id
-	request, err := http.NewRequest(http.MethodGet, url, nil)
+	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	response, err := http.DefaultClient.Do(request)
+	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
 	defer func() {
-		if err := response.Body.Close(); err != nil {
+		if err := res.Body.Close(); err != nil {
 			logger.Log(logger.Warn, "failed to close response body")
 		}
 	}()
 
 	switch {
-	case response.StatusCode == http.StatusNotFound:
+	case res.StatusCode == http.StatusNotFound:
 		return nil, ErrNotFound
-	case !helper.IsResponseStatusOk(response):
+	case !helper.IsResponseStatusOk(res):
 		return nil, ErrUnknown
 	}
 
-	data, err := helper.ParseResponseJsonBody[core.Building](response)
+	b, err := helper.ParseResponseJsonBody[core.Building](res)
 	if err != nil {
 		return nil, err
 	}
 
-	return data, err
+	return b, err
 }
 
-// fetches building from https://www.simcompanies.com api service
+// fetches level information from https://www.simcompanies.com api service "Contractor","Family Business" etc.
 func (encyclopedia) GetLevels() ([]core.Level, error) {
-	request, err := http.NewRequest(http.MethodGet, baseUriLevelsEncyclopedia, nil)
+	req, err := http.NewRequest(http.MethodGet, baseUriLevelsEncyclopedia, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	response, err := http.DefaultClient.Do(request)
+	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
 	defer func() {
-		if err := response.Body.Close(); err != nil {
+		if err := res.Body.Close(); err != nil {
 			logger.Log(logger.Warn, "failed to close response body")
 		}
 	}()
 
 	switch {
-	case response.StatusCode == http.StatusNotFound:
+	case res.StatusCode == http.StatusNotFound:
 		return nil, ErrNotFound
-	case !helper.IsResponseStatusOk(response):
+	case !helper.IsResponseStatusOk(res):
 		return nil, ErrUnknown
 	}
 
-	data, err := helper.ParseResponseJsonBody[[]core.Level](response)
+	levels, err := helper.ParseResponseJsonBody[[]core.Level](res)
 	if err != nil {
 		return nil, err
 	}
 
-	return *data, err
+	return *levels, err
 }
 
 // fetches rating from https://www.simcompanies.com api service
 func (encyclopedia) GetRatings() ([]core.Rating, error) {
-	request, err := http.NewRequest(http.MethodGet, baseUriRatingEncyclopedia, nil)
+	req, err := http.NewRequest(http.MethodGet, baseUriRatingEncyclopedia, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	response, err := http.DefaultClient.Do(request)
+	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
 	defer func() {
-		if err := response.Body.Close(); err != nil {
+		if err := res.Body.Close(); err != nil {
 			logger.Log(logger.Warn, "failed to close response body")
 		}
 	}()
 
 	switch {
-	case response.StatusCode == http.StatusNotFound:
+	case res.StatusCode == http.StatusNotFound:
 		return nil, ErrNotFound
-	case !helper.IsResponseStatusOk(response):
+	case !helper.IsResponseStatusOk(res):
 		return nil, ErrUnknown
 	}
 
-	data, err := helper.ParseResponseJsonBody[[]core.Rating](response)
+	rs, err := helper.ParseResponseJsonBody[[]core.Rating](res)
 	if err != nil {
 		return nil, err
 	}
 
-	return *data, err
+	return *rs, err
 }

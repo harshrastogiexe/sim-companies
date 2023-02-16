@@ -21,17 +21,18 @@ func GetResourceById(ctx *gin.Context) {
 	}
 
 	repo := simcompdb.NewRepository(app.DB)
-	preload := []string{"ResourceBase", "SoldAt", "SoldAtRestaurant", "ProducedAt", "NeededFor", "ImprovesQualityOf"}
-	resource, err := repo.GetResource(ctx.Param("id"), preload...)
+	include := []string{"ResourceBase", "SoldAt", "SoldAtRestaurant", "ProducedAt", "NeededFor", "ImprovesQualityOf"}
+
+	r, err := repo.GetResource(ctx.Param("id"), include...)
 
 	if err != nil {
 		logger.Log(logger.Fail, err.Error())
 		ctx.JSON(http.StatusInternalServerError, models.NewApiError(http.StatusInternalServerError, err.Error()))
 		return
 	}
-	if resource == nil {
+	if r == nil {
 		ctx.JSON(http.StatusNotFound, models.NewApiError(http.StatusNotFound, "resource not found"))
 		return
 	}
-	ctx.JSON(http.StatusOK, models.ConvertResourceMain(resource))
+	ctx.JSON(http.StatusOK, models.ConvertResourceMain(r))
 }

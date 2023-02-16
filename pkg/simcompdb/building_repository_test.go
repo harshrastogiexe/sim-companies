@@ -24,20 +24,20 @@ func Test_GetBuilding(t *testing.T) {
 	repo := simcompdb.NewRepository(db)
 	t.Run("returns the correct building", func(t *testing.T) {
 		id := "a"
-		building, err := repo.GetBuilding(id)
+		b, err := repo.GetBuilding(id)
 		if err != nil {
 			t.Fatal(err)
 		}
-		if building.BuildingBaseID != id {
-			t.Errorf("expected building with id %s, got %s", id, building.BuildingBaseID)
+		if b.BuildingBaseID != id {
+			t.Errorf("expected building with id %s, got %s", id, b.BuildingBaseID)
 		}
 	})
 
 	t.Run("returns the nil when building not found", func(t *testing.T) {
 		id := "not_found_id"
-		building, err := repo.GetBuilding(id)
+		b, err := repo.GetBuilding(id)
 
-		if building != nil {
+		if b != nil {
 			t.Errorf("expected building to be nil when not found")
 		}
 
@@ -48,18 +48,18 @@ func Test_GetBuilding(t *testing.T) {
 
 	t.Run("pre load populate building data", func(t *testing.T) {
 		id := "a"
-		populate := "BuildingBase"
-		building, err := repo.GetBuilding(id, populate)
+		include := "BuildingBase"
+		b, err := repo.GetBuilding(id, include)
 		if err != nil {
 			t.Fatal(err)
 		}
-		if building.BuildingBase.ID != id {
-			t.Errorf("failed to populate '%s', expected id to be '%s', got '%s'", populate, id, building.BuildingBase.ID)
+		if b.BuildingBase.ID != id {
+			t.Errorf("failed to populate '%s', expected id to be '%s', got '%s'", include, id, b.BuildingBase.ID)
 		}
 	})
 }
 
 func openDB(dsn string) (*gorm.DB, error) {
-	dialect := sqlserver.Open(dsn)
-	return gorm.Open(dialect, &gorm.Config{})
+	d := sqlserver.Open(dsn)
+	return gorm.Open(d, &gorm.Config{})
 }

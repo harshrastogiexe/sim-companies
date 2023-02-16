@@ -17,9 +17,11 @@ func GetBuildingById(ctx *gin.Context) {
 	if !found {
 		panic(fmt.Errorf("instance not found: TOKEN = %s", core.APPLICATION_TOKEN))
 	}
+
 	repo := simcompdb.NewRepository(app.DB)
-	populate := []string{"BuildingBase", "BuildingBase.Images", "DoesProduce", "DoesSell"}
-	building, err := repo.GetBuilding(ctx.Param("id"), populate...)
+	include := []string{"BuildingBase", "BuildingBase.Images", "DoesProduce", "DoesSell"}
+
+	b, err := repo.GetBuilding(ctx.Param("id"), include...)
 
 	if err != nil {
 		code := http.StatusInternalServerError
@@ -27,11 +29,11 @@ func GetBuildingById(ctx *gin.Context) {
 		return
 	}
 
-	if building == nil {
+	if b == nil {
 		code := http.StatusNotFound
 		ctx.JSON(code, models.NewApiError(code, "building not found"))
 		return
 	}
 
-	ctx.JSON(200, models.ConvertBuildingMain(building))
+	ctx.JSON(200, models.ConvertBuildingMain(b))
 }

@@ -9,14 +9,14 @@ import (
 )
 
 func Router() http.Handler {
-	router := gin.Default()
-	router.Use(cors.Default())
+	r := gin.Default()
+	r.Use(cors.Default())
 
-	encyclopediaRouter := router.Group("/encyclopedia")
+	encyclopediaRouter := r.Group("/encyclopedia")
 	{
 		encyclopediaRouter.GET("/resource/:id", cqrs.GetResourceById)
 		encyclopediaRouter.GET("/building/:id", cqrs.GetBuildingById)
 		encyclopediaRouter.GET("/building", cqrs.GetAllBuildings)
 	}
-	return router
+	return r
 }

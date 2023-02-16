@@ -26,8 +26,24 @@ var (
 	logInstance = log.New(os.Stdout, "", LFlags)
 )
 
+// print the log message with log level to console
 func Log(level LogLevel, format string, others ...any) {
-	prefixColor := logColor[level]
-	logInstance.SetPrefix(prefixColor.Sprintf(prefix[level]) + color.BlackString(" > "))
+	c := logColor[level]
+	logInstance.SetPrefix(c.Sprintf(prefix[level]) + color.BlackString(" > "))
 	logInstance.Output(2, fmt.Sprintf(format, others...))
+}
+
+// calls the "Log" with "Info" log level
+func LogInfo(format string, others ...any) {
+	Log(Info, format, others...)
+}
+
+// calls the "Log" with "Warn" log level
+func LogWarn(format string, others ...any) {
+	Log(Warn, format, others...)
+}
+
+// calls the "Log" with "Fail" log level
+func LogFail(format string, others ...any) {
+	Log(Fail, format, others...)
 }

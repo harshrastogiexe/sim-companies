@@ -1,0 +1,47 @@
+<div class="w-[100px] hidden sm:block">
+	<img [src]="img" [alt]="item.seller.company" class="block" />
+</div>
+
+<div class="p-[1.3rem] sm:p-2 w-full overflow-hidden">
+	<div class="sm:flex justify-between">
+		<h3
+			class="text-light-0 font-medium text-base whitespace-nowrap leading-[1]"
+		>
+			<img
+				class="w-5 inline-block aspect-square"
+				[src]="img"
+				[alt]="item.seller.company"
+			/>
+			{{ item.seller.company }}
+		</h3>
+
+		<small class="text-xs">{{ item.posted | relativeTime }}</small>
+	</div>
+
+	<div class="mt-4 sm:mt-2">
+		<div class="text-sm grid grid-cols-2">
+			<div>
+				<strong class="font-medium text-green-500">Price:</strong>&nbsp;<span>{{
+					item.price | currency
+				}}</span>
+			</div>
+			<div>
+				<strong class="font-medium text-red-500">Fees:</strong>&nbsp;<span>{{
+					item.fees | currency
+				}}</span>
+			</div>
+		</div>
+
+		<div class="text-sm grid grid-cols-2 mt-2">
+			<div>
+				<strong class="font-medium text-yellow-500">Quality:</strong
+				>&nbsp;<span>{{ item.quality }}</span>
+			</div>
+			<div>
+				<strong class="font-medium text-blue-500">Units:</strong>&nbsp;<span>{{
+					item.quantity
+				}}</span>
+			</div>
+		</div>
+	</div>
+</div>

@@ -15,7 +15,8 @@
     "simdbproxy",
     "sqlserver",
     "ssword",
-    "tailwindcss"
+    "tailwindcss",
+    "titlecase"
   ],
 
   "go.addTags": {

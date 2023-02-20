@@ -1,8 +1,54 @@
-<app-side-panel></app-side-panel>
+<header>
+	<nav class="px-4 py-4">
+		<h3 class="text-light-0 font-bold text-center text-3xl">
+			Sim Companies Exchange
+		</h3>
+	</nav>
+</header>
 
-<section class="main-section">
-	<!-- <app-navbar class="w-full"></app-navbar> -->
-	<section>
-		<router-outlet></router-outlet>
+<main class="px-4 mt-8">
+	<section class="bg-dark-1 rounded-md py-4 px-5">
+		<div class="sm:flex sm:justify-between sm:items-center">
+			<h1 class="text-light-1 font-bold text-2xl">Market</h1>
+			<form
+				class="mt-5 sm:mt-0"
+				[formGroup]="searchFg"
+				(ngSubmit)="handleSearch()"
+			>
+				<div
+					class="bg-dark-2 px-5 py-2 text-light-2 rounded-3xl flex items-center"
+				>
+					<div class="mr-3 flex items-center"><i class="bx bx-search"></i></div>
+					<div>
+						<input
+							type="text"
+							name="name"
+							id="name"
+							placeholder="Search..."
+							autocomplete="off"
+							formControlName="search"
+							class="w-full block bg-transparent outline-none text-light-1 placeholder:text-light-2"
+						/>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<!-- <div *ngIf="searchFg.value.search && (market | async)"> -->
+		<div *ngIf="!searchFg.value.search && (market | async)">
+			<div class="mt-4">
+				Showing result for
+				<span> {{ searchFg.value.search | titlecase }} </span>
+			</div>
+
+			<div class="mt-4">
+				<div class="mt-1 grid gap-2">
+					<app-market-item
+						*ngFor="let marketItem of market | async"
+						[item]="marketItem"
+					></app-market-item>
+				</div>
+			</div>
+		</div>
 	</section>
-</section>
+</main>

@@ -1,6 +1,7 @@
 package market
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/harshrastogiexe/pkg/sim-companies-proxy/core"
@@ -8,7 +9,7 @@ import (
 	"github.com/harshrastogiexe/sim-companies/pkg/logger"
 )
 
-const BASE_URI_CURRENT_MARKET_DATA = "https://www.simcompanies.com/api/v3/market/0/16/"
+const BASE_URI_CURRENT_MARKET_DATA = "https://www.simcompanies.com/api/v3/market/0/%s/"
 
 type market struct{}
 
@@ -17,7 +18,7 @@ func New() *market {
 }
 
 func (market) GetMarketData(id string) ([]core.MarketItem, error) {
-	req, err := http.NewRequest(http.MethodGet, BASE_URI_CURRENT_MARKET_DATA, nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(BASE_URI_CURRENT_MARKET_DATA, id), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +29,7 @@ func (market) GetMarketData(id string) ([]core.MarketItem, error) {
 	}
 
 	defer func() {
-		if err := req.Body.Close(); err != nil {
+		if err := res.Body.Close(); err != nil {
 			logger.Log(logger.Warn, "failed to close response body")
 		}
 	}()

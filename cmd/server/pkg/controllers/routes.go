@@ -17,6 +17,7 @@ func Router() http.Handler {
 		encyclopediaRouter.GET("/resource/:id", cqrs.GetResourceById)
 		encyclopediaRouter.GET("/building/:id", cqrs.GetBuildingById)
 		encyclopediaRouter.GET("/building", cqrs.GetAllBuildings)
+		encyclopediaRouter.GET("/resource", cqrs.GetAllResource)
 	}
 
 	marketRouter := r.Group("/market")

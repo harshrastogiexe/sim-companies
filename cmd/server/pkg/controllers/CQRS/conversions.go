@@ -43,3 +43,7 @@ func convertApiResourceToBuildResource(r *core.Resource) *models.ResourceMain {
 
 	return rm
 }
+
+func convertResourceBaseToResourceApi(r *core.ResourceBase) {
+
+}

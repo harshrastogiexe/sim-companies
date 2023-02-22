@@ -35,7 +35,7 @@
 		</div>
 
 		<!-- <div *ngIf="searchFg.value.search && (market | async)"> -->
-		<div *ngIf="!searchFg.value.search && (market | async)">
+		<div *ngIf="!searchFg.value.search && (orders$ | async)">
 			<div class="mt-4">
 				Showing result for
 				<span> {{ searchFg.value.search | titlecase }} </span>
@@ -44,7 +44,7 @@
 			<div class="mt-4">
 				<div class="mt-1 grid gap-2">
 					<app-market-item
-						*ngFor="let marketItem of market | async"
+						*ngFor="let marketItem of orders$ | async"
 						[item]="marketItem"
 					></app-market-item>
 				</div>

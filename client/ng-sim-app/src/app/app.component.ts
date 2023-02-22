@@ -1,23 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { toRelativeTimeString } from '@utils/*';
-import { of } from 'rxjs';
-import { market } from './market-data';
+import { Observable } from 'rxjs';
+import { MarketService } from 'src/common/services/market.service';
+import { IMarketService, MarketOrder } from 'src/common/types';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: [],
 })
-export class AppComponent {
-	searchFg = new FormGroup(
+export class AppComponent implements OnInit {
+	public searchFg = new FormGroup(
 		{ search: new FormControl<string>('') },
 		{ updateOn: 'submit' }
 	);
 
-	market = of(
-		market.sort((a, b) => (new Date(a.posted) < new Date(b.posted) ? 1 : -1))
-	);
+	public orders$!: Observable<MarketOrder[]>;
+
+	private readonly market: IMarketService;
+
+	constructor(market: MarketService) {
+		this.market = market;
+	}
+
+	ngOnInit(): void {
+		const resourceId: string = '21';
+		this.orders$ = this.market.getMarketOrder(resourceId);
+	}
 
 	handleSearch() {
 		const { search } = this.searchFg.value;

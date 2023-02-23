@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { toRelativeTimeString } from '@utils/*';
-import { map, merge, Observable, Subject, switchMap } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { map, merge, Observable, Subject, switchMap, tap } from 'rxjs';
 import { MarketService } from 'src/common/services/market.service';
 import { ResourceService } from 'src/common/services/resource.service';
 import {
@@ -15,21 +15,34 @@ import { ResourceBase } from 'src/common/types/ResourceBase';
 	templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-	public selected$ = new Subject<ResourceBase>();
-
-	public orders$ = new Subject<MarketOrder[]>();
-
-	public resources$!: Observable<ResourceBase[]>;
+	private resources: ResourceBase[] = [];
 
 	private readonly market: IMarketService;
 
 	private readonly resource: IResourceService;
 
+	public readonly selected$ = new Subject<ResourceBase>();
+
+	public readonly orders$ = new Subject<MarketOrder[]>();
+
+	public readonly resources$: Observable<ResourceBase[]>;
+
+	public readonly searchTextControl = new FormControl<string>('');
+
+	public readonly filteredResources$: Observable<ResourceBase[]>;
+
 	constructor(market: MarketService, resource: ResourceService) {
 		this.market = market;
 		this.resource = resource;
-
-		this.resources$ = this.resource.getAllResource();
+		this.resources$ = this.resource
+			.getAllResource()
+			.pipe(tap((resource) => (this.resources = resource)));
+		this.filteredResources$ = merge(
+			this.resources$,
+			this.searchTextControl.valueChanges.pipe(
+				map((value) => (value ? this.filterByName(value) : this.resources))
+			)
+		);
 	}
 
 	ngOnInit(): void {
@@ -45,11 +58,9 @@ export class AppComponent implements OnInit {
 		orders$.subscribe((orders) => this.orders$.next(orders));
 	}
 
-	relativeTime(time: string): string {
-		return toRelativeTimeString(new Date(time));
+	filterByName(value: string): ResourceBase[] {
+		return this.resources.filter((r) =>
+			r.name.toLowerCase().includes(value.toLowerCase())
+		);
 	}
-
-	labelCb = (r: ResourceBase) => r.name;
-	filterCb = (r: ResourceBase, text: string) =>
-		r.name.toLowerCase().includes(text.toLowerCase());
 }

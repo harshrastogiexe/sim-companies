@@ -5,15 +5,43 @@
 		<div class="sm:flex sm:justify-between sm:items-center">
 			<h1 class="text-light-1 font-bold text-2xl">Market</h1>
 			<form class="mt-5 sm:mt-0">
-				<app-dropdown
-					[items]="(resources$ | async) ?? []"
-					[label]="labelCb"
-					(select)="selected$.next($event)"
-					[filter]="filterCb"
-				>
-				</app-dropdown>
+				<app-input-filter-list [subject]="selected$">
+					<div
+						class="flex px-5 py-2 bg-dark-2 rounded-2xl"
+						data-type="text-input"
+					>
+						<div class="mr-3 flex items-center">
+							<i class="bx bx-search"></i>
+						</div>
 
-				<div></div>
+						<div class="flex-1">
+							<ng-content select="input"></ng-content>
+							<input
+								app-input-text-filter-search
+								type="text"
+								name="search"
+								id="search"
+								[formControl]="searchTextControl"
+								autocomplete="off"
+								placeholder="search..."
+								[value]="(selected$ | async)?.name || ''"
+								class="w-full block bg-transparent outline-none text-light-1 placeholder:text-light-2"
+							/>
+						</div>
+					</div>
+
+					<div
+						app-input-filter-list-item
+						*ngFor="let resource of filteredResources$ | async"
+						[value]="resource"
+						class="cursor-pointer hover:bg-red-50 px-4"
+						[ngClass]="{
+							'bg-white': resource.db_letter === (selected$ | async)?.db_letter
+						}"
+					>
+						{{ resource.name }}
+					</div>
+				</app-input-filter-list>
 			</form>
 		</div>
 

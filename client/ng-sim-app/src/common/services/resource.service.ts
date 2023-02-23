@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environment/environment';
 import { IResourceService } from '../types';
 import { ResourceBase } from '../types/ResourceBase';
 
@@ -12,7 +13,7 @@ export class ResourceService implements IResourceService {
 	}
 
 	public getAllResource() {
-		const uri = 'http://localhost:8080/encyclopedia/resource';
+		const uri = environment.server.basePath + '/encyclopedia/resource';
 		return this.http.get<ResourceBase[]>(uri);
 	}
 }

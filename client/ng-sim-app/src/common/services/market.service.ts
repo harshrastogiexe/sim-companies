@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environment/environment';
 import { IMarketService, MarketOrder } from '../types';
 
 @Injectable({ providedIn: 'root' })
@@ -12,8 +13,7 @@ export class MarketService implements IMarketService {
 	}
 
 	public getMarketOrder(resourceId: string): Observable<MarketOrder[]> {
-		const uri = 'http://localhost:8080/market/' + resourceId;
-		// return of([]);
+		const uri = environment.server.basePath + '/market/' + resourceId;
 		return this.http.get<MarketOrder[]>(uri);
 	}
 }

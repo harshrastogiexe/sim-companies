@@ -1,3 +1,5 @@
+USE SIMCOMPANIES
+GO
 SET IDENTITY_INSERT resource_base ON
 INSERT INTO resource_base
     ([id], [name], [image], transportation, retailable, research, exchange_tradable, realm_available)

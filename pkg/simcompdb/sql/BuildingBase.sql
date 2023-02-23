@@ -1,3 +1,5 @@
+USE SIMCOMPANIES
+GO
 INSERT INTO building_base
 VALUES
     ('0', 'Hangar', 'images/landscape/horizontal-integration-lvl1.png', 'production', 100050, 39, 1),

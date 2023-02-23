@@ -1,43 +1,55 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { toRelativeTimeString } from '@utils/*';
-import { Observable } from 'rxjs';
+import { map, merge, Observable, Subject, switchMap } from 'rxjs';
 import { MarketService } from 'src/common/services/market.service';
-import { IMarketService, MarketOrder } from 'src/common/types';
+import { ResourceService } from 'src/common/services/resource.service';
+import {
+	IMarketService,
+	IResourceService,
+	MarketOrder,
+} from 'src/common/types';
+import { ResourceBase } from 'src/common/types/ResourceBase';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
-	styleUrls: [],
 })
 export class AppComponent implements OnInit {
-	public searchFg = new FormGroup(
-		{ search: new FormControl<string>('') },
-		{ updateOn: 'submit' }
-	);
+	public selected$ = new Subject<ResourceBase>();
 
-	public orders$!: Observable<MarketOrder[]>;
+	public orders$ = new Subject<MarketOrder[]>();
+
+	public resources$!: Observable<ResourceBase[]>;
 
 	private readonly market: IMarketService;
 
-	constructor(market: MarketService) {
+	private readonly resource: IResourceService;
+
+	constructor(market: MarketService, resource: ResourceService) {
 		this.market = market;
+		this.resource = resource;
+
+		this.resources$ = this.resource.getAllResource();
 	}
 
 	ngOnInit(): void {
-		const resourceId: string = '21';
-		this.orders$ = this.market.getMarketOrder(resourceId);
-	}
+		const INITIAL_RESOURCE_TO_DISPLAY = '1';
+		const orders$ = merge(
+			this.market.getMarketOrder(INITIAL_RESOURCE_TO_DISPLAY),
+			this.selected$.pipe(
+				map((r) => r.db_letter.toString()),
+				switchMap((id) => this.market.getMarketOrder(id))
+			)
+		);
 
-	handleSearch() {
-		const { search } = this.searchFg.value;
-
-		if (!search) {
-			return;
-		}
+		orders$.subscribe((orders) => this.orders$.next(orders));
 	}
 
 	relativeTime(time: string): string {
 		return toRelativeTimeString(new Date(time));
 	}
+
+	labelCb = (r: ResourceBase) => r.name;
+	filterCb = (r: ResourceBase, text: string) =>
+		r.name.toLowerCase().includes(text.toLowerCase());
 }

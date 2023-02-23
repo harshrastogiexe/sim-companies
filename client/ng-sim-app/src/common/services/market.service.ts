@@ -13,6 +13,7 @@ export class MarketService implements IMarketService {
 
 	public getMarketOrder(resourceId: string): Observable<MarketOrder[]> {
 		const uri = 'http://localhost:8080/market/' + resourceId;
+		// return of([]);
 		return this.http.get<MarketOrder[]>(uri);
 	}
 }

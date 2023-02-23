@@ -1,0 +1,10 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { MarketComponent } from './pages/market/market.component';
+
+const routes: Routes = [{ path: 'market', component: MarketComponent }];
+
+@NgModule({
+	imports: [RouterModule.forRoot(routes)],
+})
+export class AppRoutingModule {}

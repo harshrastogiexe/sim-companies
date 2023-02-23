@@ -2,17 +2,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { ComponentsModule } from 'src/common/components/components.module';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { MarketComponent } from './pages/market/market.component';
 
 @NgModule({
-	declarations: [AppComponent],
+	declarations: [AppComponent, MarketComponent],
 	imports: [
 		BrowserModule,
 		HttpClientModule,
-		ReactiveFormsModule,
+		RouterModule,
+		AppRoutingModule,
 		ComponentsModule,
+		ReactiveFormsModule,
 	],
 	providers: [],
 	bootstrap: [AppComponent],

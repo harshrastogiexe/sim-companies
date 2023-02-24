@@ -7,6 +7,7 @@ import { ComponentsModule } from 'src/common/components/components.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { EncyclopediaPageModule } from './pages/encyclopedia/encyclopedia.module';
 import { MarketComponent } from './pages/market/market.component';
 
 @NgModule({
@@ -18,6 +19,7 @@ import { MarketComponent } from './pages/market/market.component';
 		AppRoutingModule,
 		ComponentsModule,
 		ReactiveFormsModule,
+		EncyclopediaPageModule,
 	],
 	providers: [],
 	bootstrap: [AppComponent],

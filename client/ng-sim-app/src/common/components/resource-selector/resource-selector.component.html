@@ -1,0 +1,30 @@
+<app-input-filter-list [subject]="selected$">
+	<div class="flex px-5 py-2 bg-dark-2 rounded-2xl" data-type="text-input">
+		<div class="mr-3 flex items-center">
+			<i class="bx bx-search"></i>
+		</div>
+
+		<div class="flex-1">
+			<input
+				app-input-text-filter-search
+				type="text"
+				autocomplete="off"
+				placeholder="search..."
+				class="w-full block bg-transparent outline-none text-light-1 placeholder:text-light-2"
+				[formControl]="searchTextFc"
+			/>
+		</div>
+	</div>
+
+	<div
+		app-input-filter-list-item
+		*ngFor="let resource of filtered$ | async"
+		[value]="resource"
+		class="cursor-pointer hover:bg-red-50 px-4"
+		[ngClass]="{
+			'bg-white': resource.db_letter === (selected$ | async)?.db_letter
+		}"
+	>
+		{{ resource.name }}
+	</div>
+</app-input-filter-list>

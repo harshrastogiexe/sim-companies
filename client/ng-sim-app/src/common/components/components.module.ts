@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ToRelativeTimeString } from '../services';
 import { HeaderComponent } from './header/header.component';
 import { MarketItemComponent } from './market-item/market-item.component';
+import { ResourceSelectorComponent } from './resource-selector/resource-selector.component';
 import { DropdownInputDirective } from './shared/dropdown/dropdown-input/dropdown-input.directive';
 import { DropdownComponent } from './shared/dropdown/dropdown.component';
 import { InputFilterListItemDirective } from './shared/input-filter-list/input-filter-list-item.directive';
@@ -20,6 +21,7 @@ import { InputTextFilterSearchDirective } from './shared/input-filter-list/input
 		InputFilterListComponent,
 		InputTextFilterSearchDirective,
 		InputFilterListItemDirective,
+		ResourceSelectorComponent,
 	],
 	imports: [CommonModule, ReactiveFormsModule],
 	exports: [
@@ -30,6 +32,7 @@ import { InputTextFilterSearchDirective } from './shared/input-filter-list/input
 		HeaderComponent,
 		InputFilterListComponent,
 		InputFilterListItemDirective,
+		ResourceSelectorComponent,
 		InputTextFilterSearchDirective,
 	],
 })

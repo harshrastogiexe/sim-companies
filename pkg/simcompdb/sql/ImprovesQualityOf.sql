@@ -1,3 +1,5 @@
+USE SIMCOMPANIES
+GO
 INSERT INTO improves_quality_of
 VALUES
     (29, 3),

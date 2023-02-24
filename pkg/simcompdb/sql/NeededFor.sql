@@ -1,3 +1,5 @@
+USE SIMCOMPANIES
+GO
 INSERT INTO needed_for
     (resource_main_resource_base_id, resource_base_id)
 VALUES

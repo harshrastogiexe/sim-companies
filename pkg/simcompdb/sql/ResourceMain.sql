@@ -1,3 +1,5 @@
+USE SIMCOMPANIES
+GO
 SET IDENTITY_INSERT resource_main ON
 INSERT INTO resource_main
     (resource_id, sold_at_building_id, sold_at_restaurant_id, produced_at_building_id, transport_needed, produced_an_hour, base_salary, average_retail_price, market_saturation, market_saturation_label, retail_modeling, store_base_salary)

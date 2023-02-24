@@ -1,3 +1,5 @@
+USE SIMCOMPANIES
+GO
 INSERT INTO building_level_image
 VALUES
 	('0', 1, 'images/landscape/horizontal-integration-lvl1.png'),

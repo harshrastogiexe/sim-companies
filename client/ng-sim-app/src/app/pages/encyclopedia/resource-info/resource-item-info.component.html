@@ -1,0 +1,104 @@
+<hr class="sm:hidden" />
+<div
+	class="bg-dark-2 shadow-inner rounded-xl max-w-sm flex items-center justify-center drop-shadow mt-2 sm:mt-0"
+>
+	<img
+		[src]="'https://d1fxy698ilbz6u.cloudfront.net/static/' + resource.image"
+		[alt]="resource.name"
+	/>
+</div>
+
+<h3 class="font-medium text-xl text-white mt-4 text-center sm:hidden">
+	{{ resource.name }}
+</h3>
+
+<div class="mt-3 bg-dark-2 p-3 space-y-2 sm:mt-0 rounded-xl">
+	<section>
+		<label class="item-label">Produced By</label>
+		<div class="item-container">{{ this.buildingName$ | async }}</div>
+	</section>
+
+	<section>
+		<label class="item-label">Production</label>
+		<div class="item-container flex">
+			<p>
+				{{
+					(
+						resource.produced_an_hour *
+						buildingLevel *
+						(1 + productionBonus / 100)
+					).toFixed(3)
+				}}
+			</p>
+		</div>
+	</section>
+
+	<section>
+		<label class="item-label">Transportation</label>
+		<div class="item-container">
+			{{ resource.transport_needed }}
+		</div>
+	</section>
+
+	<section class="produced-at">
+		<label class="item-label">Needed For</label>
+		<div class="item-container">
+			<div class="item-wrapper">
+				<img
+					[title]="item.name"
+					*ngFor="let item of requiredFor$ | async"
+					[src]="'https://d1fxy698ilbz6u.cloudfront.net/static/' + item.image"
+					[alt]="item.name"
+				/>
+			</div>
+		</div>
+	</section>
+</div>
+
+<div class="mt-3 bg-dark-2 p-3 space-y-2 sm:mt-0 rounded-xl">
+	<section>
+		<label class="item-label">Production Bonus</label>
+		<div class="mt-2 flex">
+			<button class="icon" (click)="productionBonus = productionBonus + 1">
+				+
+			</button>
+			<input
+				type="number"
+				min="0"
+				max="100"
+				[value]="productionBonus"
+				(change)="productionBonus = $any($event.target).value"
+				class="flex-1 text-center bg-transparent border-none icon hover:bg-white hover:bg-opacity-5"
+			/>
+			<button class="icon" (click)="productionBonus = productionBonus - 1">
+				-
+			</button>
+		</div>
+	</section>
+
+	<section>
+		<label class="item-label">Building Level</label>
+		<div class="mt-2 flex">
+			<button class="icon" (click)="buildingLevel = buildingLevel + 1">
+				+
+			</button>
+			<input
+				type="number"
+				min="0"
+				max="100"
+				[value]="buildingLevel"
+				(change)="buildingLevel = $any($event.target).value"
+				class="flex-1 text-center bg-transparent border-none icon hover:bg-white hover:bg-opacity-5"
+			/>
+			<button
+				class="icon"
+				(click)="
+					buildingLevel =
+						buildingLevel - 1 === 0 ? buildingLevel : buildingLevel - 1
+				"
+			>
+				-
+			</button>
+		</div>
+	</section>
+</div>

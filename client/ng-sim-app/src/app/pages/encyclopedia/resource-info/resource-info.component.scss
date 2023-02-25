@@ -1,0 +1,39 @@
+:host {
+	@apply sm:grid sm:grid-cols-2 sm:gap-4;
+	grid-template-columns: 288px 1fr 288px;
+}
+
+.item-label {
+	@apply font-medium text-sm;
+}
+
+.item-container {
+	@apply px-4 bg-zinc-800 rounded-md border border-white border-opacity-5 py-2;
+}
+
+@mixin icon {
+	@apply rounded border border-white border-opacity-10;
+}
+
+.icon {
+	@include icon();
+
+	--icon: 1.5rem;
+	height: var(--icon);
+	width: var(--icon);
+}
+
+.produced-at {
+	.item-wrapper {
+		@apply backdrop:blur-md p-2 flex overflow-y-hidden gap-2;
+
+		img {
+			height: 2rem;
+
+			&:hover {
+				@apply rounded border border-white border-opacity-10;
+				background-color: rgba(255, 255, 255, 0.128);
+			}
+		}
+	}
+}

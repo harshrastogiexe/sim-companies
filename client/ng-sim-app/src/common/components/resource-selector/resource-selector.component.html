@@ -20,7 +20,7 @@
 		app-input-filter-list-item
 		*ngFor="let resource of filtered$ | async"
 		[value]="resource"
-		class="cursor-pointer hover:bg-red-50 px-4"
+		class="cursor-pointer hover:bg-red-50 px-4 z-50"
 		[ngClass]="{
 			'bg-white': resource.db_letter === (selected$ | async)?.db_letter
 		}"

@@ -3,11 +3,23 @@
 		<h1 class="text-2xl font-medium">Resource</h1>
 	</header>
 
-	<div class="mt-1">
+	<div class="mt-4">
 		<div>
 			<app-resource-selector
 				(selected)="onSelected($event)"
 			></app-resource-selector>
 		</div>
 	</div>
+
+	<section class="mt-5">
+		<ng-container *ngIf="resourceInfo$ | async as resource; else notSelected">
+			<div class="px-2">
+				<app-resource-item-info [resource]="resource"></app-resource-item-info>
+			</div>
+		</ng-container>
+
+		<ng-template #notSelected>
+			<span class="text-sm">Select resource from above</span>
+		</ng-template>
+	</section>
 </section>

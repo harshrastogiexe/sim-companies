@@ -5,29 +5,29 @@ import (
 )
 
 type ResourceApiSchema struct {
-	ID               int
-	Name             string
-	Image            string
-	Transportation   float64
-	Retailable       bool
-	Research         bool
-	ExchangeTradable bool
-	RealmAvailable   bool
+	ID               int     `json:"id"`
+	Name             string  `json:"name"`
+	Image            string  `json:"image"`
+	Transportation   float64 `json:"transportation"`
+	Retailable       bool    `json:"retailable"`
+	Research         bool    `json:"research"`
+	ExchangeTradable bool    `json:"exchange_tradable"`
+	RealmAvailable   bool    `json:"realm_available"`
 
-	SoldAt            *string
-	SoldAtRestaurant  *string
-	ProducedAt        string
-	NeededFor         []int
-	ImprovesQualityOf []int `gorm:"many2many:improves_quality_of"`
+	SoldAt            *string `json:"sold_at"`
+	SoldAtRestaurant  *string `json:"sold_at_restaurant"`
+	ProducedAt        string  `json:"produced_at"`
+	NeededFor         []int   `json:"needed_for"`
+	ImprovesQualityOf []int   `gorm:"many2many:improves_quality_of" json:"improves_quality_of"`
 
-	TransportNeeded       float64 `gorm:"not null;"`
-	ProducedAnHour        float64 `gorm:"not null;"`
-	BaseSalary            float64 `gorm:"not null;"`
-	AverageRetailPrice    *float64
-	MarketSaturation      *float64
-	MarketSaturationLabel *string
-	RetailModeling        *string
-	StoreBaseSalary       *float64
+	TransportNeeded       float64  `gorm:"not null;" json:"transport_needed"`
+	ProducedAnHour        float64  `gorm:"not null;" json:"produced_an_hour"`
+	BaseSalary            float64  `gorm:"not null;" json:"base_salary"`
+	AverageRetailPrice    *float64 `json:"average_retail_price"`
+	MarketSaturation      *float64 `json:"market_saturation"`
+	MarketSaturationLabel *string  `json:"market_saturation_label"`
+	RetailModeling        *string  `json:"retail_modeling"`
+	StoreBaseSalary       *float64 `json:"store_base_salary"`
 }
 
 func ConvertResourceMain(resource *models.ResourceMain) ResourceApiSchema {

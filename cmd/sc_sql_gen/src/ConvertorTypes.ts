@@ -1,4 +1,7 @@
-import { ResourceBaseSqlConvertor } from "./convertors";
+import {
+  ProducedFromSqlConvertors,
+  ResourceBaseSqlConvertor,
+} from "./convertors";
 import { BuildingImagesSqlConvertor } from "./convertors/BuildingImagesSqlConvetor";
 import { BuildingMainSqlConvertor } from "./convertors/BuildingMain";
 import { DoesAction } from "./convertors/DoesProduce";
@@ -13,4 +16,5 @@ export const ConvertorTypes: { [key: string]: ISqlConvertor<any> | undefined } =
     ["does_produce"]: new DoesAction("produce"),
     ["building_main"]: new BuildingMainSqlConvertor(),
     ["images"]: new BuildingImagesSqlConvertor(),
+    ["produced_from"]: new ProducedFromSqlConvertors(),
   };

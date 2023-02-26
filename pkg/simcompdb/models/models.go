@@ -106,7 +106,9 @@ func (ResourceMain) TableName() string {
 // ---------------- Produced From ----------------------------------
 
 type ProducedFrom struct {
-	ResourceBaseID int64        `gorm:"column:resource_id"`
-	ResourceBase   ResourceBase `gorm:"foreignKey:ResourceBaseID"`
-	Amount         float64      `gorm:"not null;"`
+	ResourceBaseID     int64        `gorm:"column:resource_id"`
+	ResourceBase       ResourceBase `gorm:"foreignKey:ResourceBaseID"`
+	FromResourceBaseId int64        `gorm:"column:from_resource_id"`
+	FromResourceBase   ResourceBase `gorm:"foreignKey:FromResourceBaseId"`
+	Amount             float64      `gorm:"not null;"`
 }

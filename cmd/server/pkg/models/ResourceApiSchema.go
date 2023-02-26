@@ -19,6 +19,10 @@ type ResourceApiSchema struct {
 	ProducedAt        string  `json:"produced_at"`
 	NeededFor         []int   `json:"needed_for"`
 	ImprovesQualityOf []int   `gorm:"many2many:improves_quality_of" json:"improves_quality_of"`
+	ProducedFrom      []struct {
+		Amount     float64
+		ResourceId int
+	} `json:"producedFrom"`
 
 	TransportNeeded       float64  `gorm:"not null;" json:"transport_needed"`
 	ProducedAnHour        float64  `gorm:"not null;" json:"produced_an_hour"`
@@ -91,6 +95,20 @@ func ConvertResourceMain(resource *models.ResourceMain) ResourceApiSchema {
 			resources = append(resources, int(rb.ID))
 		}
 		schema.NeededFor = resources
+	}
+
+	schema.ProducedFrom = []struct {
+		Amount     float64
+		ResourceId int
+	}{}
+	for _, item := range resource.ResourceBase.ProducedFrom {
+		schema.ProducedFrom = append(schema.ProducedFrom, struct {
+			Amount     float64
+			ResourceId int
+		}{
+			Amount:     item.Amount,
+			ResourceId: int(item.FromResourceBaseId),
+		})
 	}
 
 	return schema

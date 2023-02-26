@@ -1,3 +1,5 @@
+USE SIMCOMPANIES
+GO
 INSERT INTO produced_froms
 VALUES
 	(2, 1, 0.2),

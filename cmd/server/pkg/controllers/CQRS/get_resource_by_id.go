@@ -21,7 +21,7 @@ func GetResourceById(ctx *gin.Context) {
 	}
 
 	repo := simcompdb.NewRepository(app.DB)
-	include := []string{"ResourceBase", "SoldAt", "SoldAtRestaurant", "ProducedAt", "NeededFor", "ImprovesQualityOf"}
+	include := []string{"ResourceBase", "ResourceBase.ProducedFrom", "SoldAt", "SoldAtRestaurant", "ProducedAt", "NeededFor", "ImprovesQualityOf"}
 
 	r, err := repo.GetResource(ctx.Param("id"), include...)
 

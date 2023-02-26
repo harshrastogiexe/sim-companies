@@ -36,6 +36,8 @@ export class ResourceItemInfoComponent implements OnInit, OnChanges {
 
 	requiredFor$?: Observable<ResourceBase[]>;
 
+	producedFrom$?: Observable<{ amount: number; resource: ResourceInfo }[]>;
+
 	productionBonus = 0;
 
 	buildingLevel = 1;
@@ -49,15 +51,23 @@ export class ResourceItemInfoComponent implements OnInit, OnChanges {
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if ('resource' in changes) {
-			const resources = <ResourceInfo>changes['resource'].currentValue;
-			const producedAt = (<ResourceInfo>resources).produced_at;
+			const resource = <ResourceInfo>changes['resource'].currentValue;
+			const producedAt = (<ResourceInfo>resource).produced_at;
 			this.building
 				.getBuildingInfo(producedAt!)
 				.subscribe((building) => this.buildingInfo$.next(building));
 
 			this.requiredFor$ = combineLatest(
-				resources.needed_for.map((id) =>
+				resource.needed_for.map((id) =>
 					this.resourceService.getResourceInfo(id.toString())
+				)
+			);
+
+			this.producedFrom$ = combineLatest(
+				resource.producedFrom.map((item) =>
+					this.resourceService
+						.getResourceInfo(item.ResourceId.toString())
+						.pipe(map((resource) => ({ amount: item.Amount, resource })))
 				)
 			);
 		}

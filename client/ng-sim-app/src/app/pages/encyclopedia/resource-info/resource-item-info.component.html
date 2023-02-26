@@ -18,7 +18,7 @@
 		<div class="item-container">{{ this.buildingName$ | async }}</div>
 	</section>
 
-	<section>
+	<section title="production per hour per level">
 		<label class="item-label">Production</label>
 		<div class="item-container flex">
 			<p>
@@ -49,6 +49,23 @@
 					*ngFor="let item of requiredFor$ | async"
 					[src]="'https://d1fxy698ilbz6u.cloudfront.net/static/' + item.image"
 					[alt]="item.name"
+				/>
+			</div>
+		</div>
+	</section>
+
+	<section class="produced-at">
+		<label class="item-label">Produced From</label>
+		<div class="item-container">
+			<div class="item-wrapper">
+				<img
+					[title]="item.amount.toString() + 'x ' + item.resource.name"
+					*ngFor="let item of producedFrom$ | async"
+					[src]="
+						'https://d1fxy698ilbz6u.cloudfront.net/static/' +
+						item.resource.image
+					"
+					[alt]="item.resource.name"
 				/>
 			</div>
 		</div>

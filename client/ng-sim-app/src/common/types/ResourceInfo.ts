@@ -15,4 +15,5 @@ export interface ResourceInfo extends ResourceBase {
 	market_saturation_label: string | null;
 	retail_modeling: string | null;
 	store_base_salary: number | null;
+	producedFrom: { Amount: number; ResourceId: number }[];
 }

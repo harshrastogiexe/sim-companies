@@ -1,0 +1,24 @@
+<label class="font-medium text-sm">{{ label }}</label>
+
+<div class="flex mt-1">
+	<button
+		class="rounded border border-white border-opacity-10 h-6 w-6"
+		(click)="value = value - 1"
+	>
+		-
+	</button>
+
+	<input
+		[value]="value"
+		type="text"
+		class="flex-1 text-center bg-zinc-800 border-none icon hover:bg-white hover:bg-opacity-5 outline-none"
+		(change)="onChange($event)"
+	/>
+
+	<button
+		class="rounded border border-white border-opacity-10 h-6 w-6"
+		(click)="value = value + 1"
+	>
+		+
+	</button>
+</div>

@@ -1,0 +1,11 @@
+:host {
+	@apply block;
+
+	label {
+		@apply font-medium text-sm;
+	}
+
+	.wrapper {
+		@apply px-4 bg-zinc-800 rounded-md border border-white border-opacity-5 py-2;
+	}
+}

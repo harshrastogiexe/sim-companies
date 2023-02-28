@@ -23,17 +23,15 @@
 	width: var(--icon);
 }
 
-.produced-at {
-	.item-wrapper {
-		@apply backdrop:blur-md p-2 flex overflow-y-hidden gap-2;
+.item-wrapper {
+	@apply backdrop:blur-md p-2 flex overflow-y-hidden gap-2;
 
-		img {
-			height: 2rem;
+	img {
+		height: 2rem;
 
-			&:hover {
-				@apply rounded border border-white border-opacity-10;
-				background-color: rgba(255, 255, 255, 0.128);
-			}
+		&:hover {
+			@apply rounded border border-white border-opacity-10;
+			background-color: rgba(255, 255, 255, 0.128);
 		}
 	}
 }

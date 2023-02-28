@@ -13,50 +13,27 @@
 </h3>
 
 <div class="mt-3 bg-dark-2 p-3 space-y-2 sm:mt-0 rounded-xl">
-	<section>
-		<label class="item-label">Produced By</label>
-		<div class="item-container">{{ this.buildingName$ | async }}</div>
-	</section>
+	<app-resource-info-field label="Produced By">
+		{{ this.buildingName$ | async }}
+	</app-resource-info-field>
 
-	<section title="production per hour per level">
-		<label class="item-label">Production</label>
-		<div class="item-container flex">
-			<p>
-				{{
-					(
-						resource.produced_an_hour *
-						buildingLevel *
-						(1 + productionBonus / 100)
-					).toFixed(3)
-				}}
-			</p>
+	<app-resource-info-field label="Production">
+		{{ production.toFixed(3) }}
+	</app-resource-info-field>
+
+	<app-resource-info-field label="Needed For">
+		<div class="item-wrapper">
+			<img
+				[title]="item.name"
+				*ngFor="let item of requiredFor$ | async"
+				[src]="'https://d1fxy698ilbz6u.cloudfront.net/static/' + item.image"
+				[alt]="item.name"
+			/>
 		</div>
-	</section>
+	</app-resource-info-field>
 
-	<section>
-		<label class="item-label">Transportation</label>
-		<div class="item-container">
-			{{ resource.transport_needed }}
-		</div>
-	</section>
-
-	<section class="produced-at">
-		<label class="item-label">Needed For</label>
-		<div class="item-container">
-			<div class="item-wrapper">
-				<img
-					[title]="item.name"
-					*ngFor="let item of requiredFor$ | async"
-					[src]="'https://d1fxy698ilbz6u.cloudfront.net/static/' + item.image"
-					[alt]="item.name"
-				/>
-			</div>
-		</div>
-	</section>
-
-	<section class="produced-at">
-		<label class="item-label">Produced From</label>
-		<div class="item-container">
+	<ng-container *ngIf="(producedFrom$ | async)?.length">
+		<app-resource-info-field label="Produced From">
 			<div class="item-wrapper">
 				<img
 					[title]="item.amount.toString() + 'x ' + item.resource.name"
@@ -68,8 +45,16 @@
 					[alt]="item.resource.name"
 				/>
 			</div>
-		</div>
-	</section>
+		</app-resource-info-field>
+	</ng-container>
+
+	<app-resource-info-field label="Unit Admin Cost">
+		{{ (adminCost / production).toFixed(2) }}
+	</app-resource-info-field>
+
+	<app-resource-info-field label="Unit Worker Cost">
+		{{ (labourCost / resource.produced_an_hour).toFixed(2) }}
+	</app-resource-info-field>
 </div>
 
 <div class="mt-3 bg-dark-2 p-3 space-y-2 sm:mt-0 rounded-xl">
@@ -118,4 +103,29 @@
 			</button>
 		</div>
 	</section>
+
+	<section>
+		<label class="item-label">Admin</label>
+		<div class="mt-2 flex">
+			<button class="icon" (click)="admin = admin + 1">+</button>
+			<input
+				type="number"
+				min="0"
+				max="100"
+				[value]="admin.toFixed(2)"
+				(change)="admin = $any($event.target).value"
+				class="flex-1 text-center bg-transparent border-none icon hover:bg-white hover:bg-opacity-5"
+			/>
+			<button
+				class="icon"
+				(click)="admin = admin - 1 === 0 ? admin : admin - 1"
+			>
+				-
+			</button>
+		</div>
+	</section>
+
+	<app-resource-info-modifier
+		label="Production Bonus"
+	></app-resource-info-modifier>
 </div>
